@@ -33,7 +33,7 @@ issues:
    `restore_console_attribs();`
    
    Then within your code, use the `dputs()` function to output Unicode text to the console.
-   The library also provides the `dputsf()` function which acts like printf(), but 
+   The library also provides the `dputsf()` function which acts like `printf()`, but 
    provides output via `dputs()`...
    
    
