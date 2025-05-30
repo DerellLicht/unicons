@@ -29,6 +29,7 @@
 
 #include <windows.h>
 #include <stdio.h>
+#include <stdlib.h>  //  exit()
 #include <conio.h>   // _getch(), _kbhit()
 #include <tchar.h>
 
@@ -221,20 +222,19 @@ CHAR get_char(void)
 //**********************************************************
 WORD get_scode(void)
 {
-   WORD inchr ;
-   inchr = _getch() ;
+   int inchr = _getch() ;
    if (inchr == 0)
       {
       inchr = _getch() ;
-      inchr <<= 8 ;
+      inchr <<= 8 ;  //lint !e701
       }
    else if (inchr == 0xE0)
       {
       inchr = _getch() ;
-      inchr <<= 8 ;
+      inchr <<= 8 ;  //lint !e701
       inchr |= 0xE0 ;
       }   
-   return inchr ;
+   return inchr ; //lint !e734
 }
 
 //**********************************************************
@@ -304,8 +304,8 @@ void dreturn(void)
 //**********************************************************
 static void dgotoxy(int x, int y)
 {
-   sinfo.dwCursorPosition.X = x ;
-   sinfo.dwCursorPosition.Y = y ;
+   sinfo.dwCursorPosition.X = x ;   //lint !e734
+   sinfo.dwCursorPosition.Y = y ;   //lint !e734
    SetConsoleCursorPosition(hStdOut, sinfo.dwCursorPosition) ;
 }
 
@@ -318,8 +318,8 @@ void dclrscr(void)
 
    slen = sinfo.dwSize.X * sinfo.dwSize.Y ;
 
-   FillConsoleOutputCharacter(hStdOut, ' ', slen, coord, &wrlen) ;
-   FillConsoleOutputAttribute(hStdOut, original_attribs, slen, coord, &wrlen) ;
+   FillConsoleOutputCharacter(hStdOut, ' ', slen, coord, &wrlen) ;   //lint !e732
+   FillConsoleOutputAttribute(hStdOut, original_attribs, slen, coord, &wrlen) ;  //lint !e732
 
    dgotoxy(0,0) ; // home the cursor
 }   
@@ -336,12 +336,12 @@ void dputs(const TCHAR *outstr)
       return ;
 
    if (is_redirected()) {
-      _tprintf(_T("%s"), outstr);
+      _tprintf(_T("%s"), outstr); //lint !e559
    }
    else {
-      WORD slen = _tcslen(outstr) ;
+      uint slen = _tcslen(outstr) ;
       WriteConsole(hStdOut, outstr, slen, &wrlen, 0) ;
-      sinfo.dwCursorPosition.X += slen ;
+      sinfo.dwCursorPosition.X += slen ;  //lint !e734 !e737
    }
 }
 

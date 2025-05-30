@@ -9,11 +9,9 @@
 
 #include "conio_min.h"
 
-#define  VER_NUMBER "1.00"
+// #define  VER_NUMBER "1.00"
 
-//lint -esym(843, Version, ShortVersion) could be declared as const
-TCHAR *Version = _T("UniCons, Version " VER_NUMBER " ") ;   //lint !e707
-TCHAR *ShortVersion = _T(" UniCons " VER_NUMBER " ") ;       //lint !e707
+//lint -esym(818, argv)   Pointer parameter 
 
 //  per Jason Hood, this turns off MinGW's command-line expansion, 
 //  so we can handle wildcards like we want to.                    
@@ -101,14 +99,14 @@ int wmain(int argc, wchar_t *argv[])
         wprintf(L"CommandLineToArgvW failed\n");
         return 1;
     } 
-    else {
-        for (idx = 0; idx < nArgs; idx++) {
-            // wprintf(L"%d: %s\n", i, szArglist[i]);
-            TCHAR *p = szArglist[idx] ;
-            _tcsncpy(file_spec, p, MAX_FILE_LEN);
-            file_spec[MAX_FILE_LEN] = 0 ;
-        }
-    }
+    
+   // shouldn't this start at 1, not 0 ??
+   for (idx = 0; idx < nArgs; idx++) {
+       // wprintf(L"%d: %s\n", i, szArglist[i]);
+       TCHAR *p = szArglist[idx] ;
+       _tcsncpy(file_spec, p, MAX_FILE_LEN);
+       file_spec[MAX_FILE_LEN] = 0 ;
+   }
 
     // Free the memory allocated by CommandLineToArgvW
     LocalFree(szArglist);
@@ -119,9 +117,15 @@ int wmain(int argc, wchar_t *argv[])
    // > medialist glock17\"?????????? ?????????"
    // arg 1: [glock17"??????????]
    // arg 2: [?????????]
+   
+   //  try this:  unicons "?????????? ?????????"
 
    // > medialist glock17\\"?????????? ?????????"
    // filespec: D:\SourceCode\Git\media_list\glock17\?????????? ?????????\*, fcount: 3
+   if (argc != 2) {
+      dputsf(L"invalid arg count: %u\n", argc);
+      return 1 ;
+   }
    
    for (idx=1; idx<argc; idx++) {
       TCHAR *p = argv[idx] ;
