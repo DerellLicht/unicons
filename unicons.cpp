@@ -1,6 +1,8 @@
 //**********************************************************************************
 //  Copyright (c) 2025 Derell Licht
 //  unicons.cpp - demo program for various Unicode-handling operations
+//  
+//  Good example string: unicons derelict cornucopia "?????????? ?????????"
 //**********************************************************************************
 
 #include <windows.h>
@@ -19,11 +21,10 @@
 //lint -e714  Symbol '_CRT_glob' not referenced
 int _CRT_glob = 0 ;
 
-#define  MAX_FILE_LEN   1024
-
 //********************************************************************************
+//  This define is moved to Makefile
 // #define  USE_SO_METHOD
-#undef  USE_SO_METHOD
+// #undef  USE_SO_METHOD
 
 #ifndef  USE_SO_METHOD
 
@@ -69,8 +70,6 @@ int main()
 #endif
 
 //********************************************************************************
-static TCHAR file_spec[MAX_FILE_LEN+1] = _T("") ;
-
 #ifdef  USE_SO_METHOD
 int main(void) 
 #else
@@ -86,30 +85,30 @@ int wmain(int argc, wchar_t *argv[])
    //  https://stackoverflow.com/questions/79642663/mingw-and-wmain-undefined-reference-to-winmain16/79642996#79642996
    //********************************************************************************
 #ifdef  USE_SO_METHOD
-    LPWSTR *szArglist;
-    int nArgs;
+   LPWSTR *szArglist;
+   int nArgs;
 
-    // Get the command line string
-    LPWSTR commandLine = GetCommandLineW();
+   // Get the command line string
+   LPWSTR commandLine = GetCommandLineW();
 
-    // Convert the command line string to an array of arguments
-    szArglist = CommandLineToArgvW(commandLine, &nArgs);
+   // Convert the command line string to an array of arguments
+   szArglist = CommandLineToArgvW(commandLine, &nArgs);
 
-    if (szArglist == NULL) {
-        wprintf(L"CommandLineToArgvW failed\n");
-        return 1;
-    } 
+   if (szArglist == NULL) {
+       wprintf(L"CommandLineToArgvW failed\n");
+       return 1;
+   } 
     
-   // shouldn't this start at 1, not 0 ??
+   //  normally, this index would start at 1,
+   //  but we want to confirm that the executable filename is being picked up... 
    for (idx = 0; idx < nArgs; idx++) {
        // wprintf(L"%d: %s\n", i, szArglist[i]);
        TCHAR *p = szArglist[idx] ;
-       _tcsncpy(file_spec, p, MAX_FILE_LEN);
-       file_spec[MAX_FILE_LEN] = 0 ;
+       dputsf(L"arg %u: %s\n", idx, p);
    }
 
-    // Free the memory allocated by CommandLineToArgvW
-    LocalFree(szArglist);
+   // Free the memory allocated by CommandLineToArgvW
+   LocalFree(szArglist);
 #else
    //  okay, cause of this, is that apparently I have to use double-backslash
    //  to put a quote after a backslash...
@@ -120,26 +119,17 @@ int wmain(int argc, wchar_t *argv[])
    
    //  try this:  unicons "?????????? ?????????"
 
+   //  unicons derelict cornucopia "?????????? ?????????"
    // > medialist glock17\\"?????????? ?????????"
    // filespec: D:\SourceCode\Git\media_list\glock17\?????????? ?????????\*, fcount: 3
-   if (argc != 2) {
-      dputsf(L"invalid arg count: %u\n", argc);
-      return 1 ;
-   }
    
-   for (idx=1; idx<argc; idx++) {
+   //  normally, this index would start at 1,
+   //  but we want to confirm that the executable filename is being picked up... 
+   for (idx=0; idx<argc; idx++) {
       TCHAR *p = argv[idx] ;
-      _tcsncpy(file_spec, p, MAX_FILE_LEN);
-      file_spec[MAX_FILE_LEN] = 0 ;
+      dputsf(L"arg %u: %s\n", idx, p);
    }
 #endif   
-
-   if (file_spec[0] == 0) {
-      _tcscpy(file_spec, _T("."));
-   }
-   
-   dputsf(L"input file: %s\n", file_spec);
-
    restore_console_attribs();
    return 0;
 }

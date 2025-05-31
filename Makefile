@@ -1,4 +1,5 @@
 # makefile for unicons app
+USE_SO = NO
 USE_DEBUG = NO
 USE_64BIT = NO
 USE_UNICODE = YES
@@ -28,6 +29,11 @@ ifeq ($(USE_UNICODE),YES)
 CFLAGS += -DUNICODE -D_UNICODE
 LiFLAGS += -dUNICODE -d_UNICODE
 LFLAGS += -dUNICODE -d_UNICODE
+
+ifeq ($(USE_SO),YES)
+CFLAGS += -DUSE_SO_METHOD
+endif
+
 endif
 
 CPPSRC=unicons.cpp common.cpp conio_min.cpp
