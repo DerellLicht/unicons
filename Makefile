@@ -1,5 +1,5 @@
 # makefile for unicons app
-USE_SO = YES
+USE_SO = NO
 USE_DEBUG = NO
 USE_64BIT = NO
 USE_UNICODE = YES
