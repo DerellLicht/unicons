@@ -11,8 +11,6 @@
 
 #include "conio_min.h"
 
-// #define  VER_NUMBER "1.00"
-
 //lint -esym(818, argv)   Pointer parameter 
 
 //  per Jason Hood, this turns off MinGW's command-line expansion, 
@@ -26,12 +24,11 @@ int _CRT_glob = 0 ;
 // #define  USE_SO_METHOD
 // #undef  USE_SO_METHOD
 
-#ifndef  USE_SO_METHOD
-
 //********************************************************************************
 //  this solution is from:
 //  https://github.com/coderforlife/mingw-unicode-main/
 //********************************************************************************
+#ifndef  USE_SO_METHOD
 #if defined(__GNUC__) && defined(_UNICODE)
 
 #ifndef __MSVCRT__
@@ -110,15 +107,13 @@ int wmain(int argc, wchar_t *argv[])
    // Free the memory allocated by CommandLineToArgvW
    LocalFree(szArglist);
 #else
-   //  okay, cause of this, is that apparently I have to use double-backslash
-   //  to put a quote after a backslash...
+   //  okay, the cause of this, is that apparently I have to use 
+   //  double-backslash to put a quote after a backslash...
    //  But forward slash works fine...
    // > medialist glock17\"?????????? ?????????"
    // arg 1: [glock17"??????????]
    // arg 2: [?????????]
    
-   //  try this:  unicons "?????????? ?????????"
-
    //  unicons derelict cornucopia "?????????? ?????????"
    // > medialist glock17\\"?????????? ?????????"
    // filespec: D:\SourceCode\Git\media_list\glock17\?????????? ?????????\*, fcount: 3

@@ -16,8 +16,8 @@ CFLAGS = -Wall -g -c
 CxxFLAGS = -Wall -g -c
 LFLAGS = -g
 else
-CFLAGS = -Wall -s -O3 -c -m32
-LFLAGS = -s -O3 -m32
+CFLAGS = -Wall -s -O3 -c
+LFLAGS = -s -O3
 endif
 CFLAGS += -Weffc++
 CFLAGS += -Wno-write-strings
