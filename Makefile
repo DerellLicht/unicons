@@ -1,5 +1,5 @@
 # makefile for unicons app
-USE_SO = NO
+USE_SO = YES
 USE_DEBUG = NO
 USE_64BIT = NO
 USE_UNICODE = YES
@@ -50,8 +50,12 @@ CHTAIL += -DUNICODE -D_UNICODE
 endif
 
 BIN=unicons.exe
+
 #  shlwapi is required for one of the two wmain() solutions
-#LIBS=-lshlwapi
+#  Well, only required with *some* versions of MinGW ...
+ifeq ($(USE_SO),YES)
+LIBS=-lshlwapi
+endif
 
 OBJS = $(CPPSRC:.cpp=.o)
 
