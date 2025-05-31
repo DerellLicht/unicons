@@ -72,6 +72,10 @@ dist:
 	rm -f *.zip
 	zip $(BIN).zip $(BIN) Readme.md 
 
+src:
+	rm -f *.zip
+	zip unicons.src.zip *.cpp *.h Readme.md Makefile
+
 wc:
 	wc -l *.cpp
 
