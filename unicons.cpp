@@ -2,7 +2,7 @@
 //  Copyright (c) 2025 Derell Licht
 //  unicons.cpp - demo program for various Unicode-handling operations
 //  
-//  Good example string: unicons derelict cornucopia "?????????? ?????????"
+//  Good example string: unicons derelict cornucopia "буяновский страйкбол"
 //**********************************************************************************
 
 #include <windows.h>
@@ -82,49 +82,44 @@ int wmain(int argc, wchar_t *argv[])
    //  https://stackoverflow.com/questions/79642663/mingw-and-wmain-undefined-reference-to-winmain16/79642996#79642996
    //********************************************************************************
 #ifdef  USE_SO_METHOD
-   LPWSTR *szArglist;
-   int nArgs;
+   LPWSTR *argv;
+   int argc;
 
    // Get the command line string
    LPWSTR commandLine = GetCommandLineW();
 
    // Convert the command line string to an array of arguments
-   szArglist = CommandLineToArgvW(commandLine, &nArgs);
+   argv = CommandLineToArgvW(commandLine, &argc);
 
-   if (szArglist == NULL) {
+   if (argv == NULL) {
        wprintf(L"CommandLineToArgvW failed\n");
        return 1;
    } 
+#endif   
     
-   //  normally, this index would start at 1,
-   //  but we want to confirm that the executable filename is being picked up... 
-   for (idx = 0; idx < nArgs; idx++) {
-       // wprintf(L"%d: %s\n", i, szArglist[i]);
-       TCHAR *p = szArglist[idx] ;
-       dputsf(L"arg %u: %s\n", idx, p);
-   }
-
-   // Free the memory allocated by CommandLineToArgvW
-   LocalFree(szArglist);
-#else
    //  okay, the cause of this, is that apparently I have to use 
    //  double-backslash to put a quote after a backslash...
    //  But forward slash works fine...
-   // > medialist glock17\"?????????? ?????????"
-   // arg 1: [glock17"??????????]
-   // arg 2: [?????????]
+   // > medialist glock17\"буяновский страйкбол"
+   // arg 1: [glock17"буяновский]
+   // arg 2: [страйкбол]
    
-   //  unicons derelict cornucopia "?????????? ?????????"
-   // > medialist glock17\\"?????????? ?????????"
-   // filespec: D:\SourceCode\Git\media_list\glock17\?????????? ?????????\*, fcount: 3
+   // > medialist glock17\\"буяновский страйкбол"
+   // filespec: D:\SourceCode\Git\media_list\glock17\буяновский страйкбол\*, fcount: 3
    
+   //  unicons derelict cornucopia "буяновский страйкбол"
    //  normally, this index would start at 1,
    //  but we want to confirm that the executable filename is being picked up... 
    for (idx=0; idx<argc; idx++) {
       TCHAR *p = argv[idx] ;
       dputsf(L"arg %u: %s\n", idx, p);
    }
+
+#ifdef  USE_SO_METHOD
+   // Free the memory allocated by CommandLineToArgvW
+   LocalFree(argv);
 #endif   
+
    restore_console_attribs();
    return 0;
 }
