@@ -112,7 +112,9 @@ int wmain(int argc, wchar_t *argv[])
    //  but we want to confirm that the executable filename is being picked up... 
    for (idx=0; idx<argc; idx++) {
       TCHAR *p = argv[idx] ;
-      dputsf(L"arg %u: %s\n", idx, p);
+      u_int slen = _tcslen(p);
+      dputsf(L"arg %u, len %u: [%s]\n", idx, slen, p);
+      dnewline();
    }
 
 #ifdef  USE_SO_METHOD

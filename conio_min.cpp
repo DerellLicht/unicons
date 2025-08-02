@@ -48,6 +48,26 @@ static bool redirected = false ;
 
 static WORD original_attribs = 3 ;
 
+//**********************************************************
+static void debug_dump_sinfo(wchar_t *msg)
+{
+   if (msg != NULL) {
+      syslog(L"%s\n", msg);
+   }
+   syslog(L"dwSize: %ux%u, cursor pos: %ux%u\n",
+      sinfo.dwSize.X,
+      sinfo.dwSize.Y,
+      sinfo.dwCursorPosition.X,
+      sinfo.dwCursorPosition.Y
+      );
+   syslog(L"srWindow: L%u T%u R%u B%u\n",
+      sinfo.srWindow.Left,
+      sinfo.srWindow.Top,
+      sinfo.srWindow.Right,
+      sinfo.srWindow.Bottom
+      );
+}
+
 //***************************************************************************
 //                GENERIC 32-BIT CONSOLE I/O FUNCTIONS
 //***************************************************************************
@@ -171,6 +191,10 @@ void console_init(void)
    // system( "chcp 65001 >nul" );        // Set the console to expect codepage 65001 = UTF-8.
    // lines = (unsigned) (int) (sinfo.srWindow.Bottom - sinfo.srWindow.Top + 1) ;
    // lines = get_window_rows ();
+   // dnewline();
+   // dreturn();
+   dclrscr();
+   // debug_dump_sinfo(L"init");
 }   
 
 //**********************************************************
