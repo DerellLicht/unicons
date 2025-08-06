@@ -186,14 +186,14 @@ void console_init(void)
    // _setmode(_fileno(stdout), _O_U16TEXT);
 
    //  set up Ctrl-Break handler
-   SetConsoleCtrlHandler((PHANDLER_ROUTINE) control_handler, TRUE) ;
+   // SetConsoleCtrlHandler((PHANDLER_ROUTINE) control_handler, TRUE) ;
    
    // system( "chcp 65001 >nul" );        // Set the console to expect codepage 65001 = UTF-8.
    // lines = (unsigned) (int) (sinfo.srWindow.Bottom - sinfo.srWindow.Top + 1) ;
    // lines = get_window_rows ();
    // dnewline();
    // dreturn();
-   dclrscr();
+   // dclrscr();
    // debug_dump_sinfo(L"init");
 }   
 
