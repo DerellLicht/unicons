@@ -1,11 +1,13 @@
 Sadly, the console-management function(s) in conio_min.cpp 
 do not work with Chinese text, for some reason...
-Even the initial newline on command entry does not work...
 
 Example:
-//  however, Chinese does not work quite right...
-//  See unicons.chinese.jpg
-I suspect the issue is with the console itself, rather than my code...
+> unicons 高速回転可能で、全体的に静かなファン
 
-D:\SourceCode\Git\unicode_console > unicons 高速回転可能で、全体的に静かなファン
+I suspect the issue is with the console itself, rather than my code...
+Note that the following has the same display issue:
+
+> dir 高速回転可能で、全体的に静かなファン
+
+
 
